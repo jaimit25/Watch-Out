@@ -3,6 +3,8 @@ import 'package:flutter/services.dart';
 import 'package:geocoder/geocoder.dart';
 import 'package:geocoder/model.dart';
 import 'package:location/location.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:watch_out/Authentication/splash.dart';
 import 'package:watch_out/Navigation/navigation.dart';
 
 class home extends StatefulWidget {
@@ -45,10 +47,10 @@ class _homeState extends State<home> {
         new Coordinates(myLocation.latitude, myLocation.longitude);
     print(myLocation.latitude);
     print(myLocation.longitude);
-    setState(() {
-      lat = myLocation.latitude;
-      lng = myLocation.longitude;
-    });
+    // setState(() {
+    lat = myLocation.latitude;
+    lng = myLocation.longitude;
+    // });
     var addresses =
         await Geocoder.local.findAddressesFromCoordinates(coordinates);
     var first = addresses.first;
@@ -61,6 +63,40 @@ class _homeState extends State<home> {
           ' ${first.locality}, ${first.adminArea},${first.subLocality}, ${first.subAdminArea},${first.addressLine}, ${first.featureName},${first.thoroughfare}, ${first.subThoroughfare}';
     });
     return first;
+  }
+
+  void DialogBoxLogOut(context) {
+    var baseDialog = AlertDialog(
+      title: new Text(
+        "Logout",
+        style: TextStyle(
+          fontWeight: FontWeight.w700,
+        ),
+      ),
+      content: Container(
+        child: Text('Are you sure you want to logout?'),
+      ),
+      actions: <Widget>[
+        FlatButton(
+          color: Color(0xff076482),
+          child: new Text(
+            "Yes",
+            style: TextStyle(color: Colors.white, fontSize: 16),
+          ),
+          onPressed: () async {
+            SharedPreferences pref = await SharedPreferences.getInstance();
+            await pref.clear();
+            // FirebaseAuth.instance.signOut();
+            Navigator.pop(context);
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => SplashScreen()));
+            // SystemNavigator.pop();
+          },
+        ),
+      ],
+    );
+
+    showDialog(context: context, builder: (BuildContext context) => baseDialog);
   }
 
   @override
@@ -116,7 +152,9 @@ class _homeState extends State<home> {
                     ],
                   ),
                   GestureDetector(
-                    onTap: () {},
+                    onTap: () {
+                      DialogBoxLogOut(context);
+                    },
                     child: Container(
                       margin: EdgeInsets.only(
                         top: 10,

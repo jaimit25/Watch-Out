@@ -26,6 +26,7 @@ class _registerState extends State<register> {
   TextEditingController emailCont = new TextEditingController();
   TextEditingController passCont = new TextEditingController();
   TextEditingController nameCont = new TextEditingController();
+  TextEditingController phoneCont = new TextEditingController();
   TextEditingController usernameCont = new TextEditingController();
 
   bool isObsecure = true;
@@ -168,6 +169,32 @@ class _registerState extends State<register> {
             ),
           ),
           SizedBox(
+            height: 5,
+          ),
+          Container(
+            padding: EdgeInsets.only(left: 35, right: 35),
+            child: TextFormField(
+              maxLines: 2,
+              // onSaved: (input) {
+              //   setState(() {
+              //     _email.text = input;
+              //   });
+              // },
+              controller: phoneCont,
+              style: TextStyle(color: Colors.white),
+              decoration: InputDecoration(
+                labelText: "PHONE",
+                labelStyle: TextStyle(
+                    color: Colors.grey, letterSpacing: 0.8, fontSize: 15),
+                enabledBorder: UnderlineInputBorder(
+                    borderSide: BorderSide(color: Colors.white)),
+                focusedBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(color: Colors.white),
+                ),
+              ),
+            ),
+          ),
+          SizedBox(
             height: 15,
           ),
           Container(
@@ -257,7 +284,9 @@ class _registerState extends State<register> {
                       'photo':
                           'https://www.cybersport.ru/assets/img/no-photo/user.png',
 
-                      'phone': 'Enter Phone Number',
+                      'phone': phoneCont.text == null
+                          ? 'Enter Phone Number'
+                          : phoneCont.text,
                       // 'birthdate': 'Enter Birth Date',
                       'extra': 0,
                       'Privacy': 0,
