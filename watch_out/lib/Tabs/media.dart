@@ -22,6 +22,7 @@ class _mediaState extends State<media> {
         //         bottomLeft: Radius.circular(20),
         //         bottomRight: Radius.circular(20))),
         elevation: 0,
+
         leading: GestureDetector(
           onTap: () {
             Navigator.push(
@@ -61,7 +62,7 @@ class _mediaState extends State<media> {
       ),
       body: ListView(shrinkWrap: true, children: [
         Container(
-          height: MediaQuery.of(context).size.height * 0.85,
+          height: MediaQuery.of(context).size.height * 0.83,
           child: StreamBuilder(
             stream: FirebaseFirestore.instance
                 .collection('News')
@@ -144,7 +145,7 @@ class _mediaState extends State<media> {
                       textStyle: TextStyle(
                           color: Colors.white,
                           fontSize: 20,
-                          fontWeight: FontWeight.w500),
+                          fontWeight: FontWeight.w400),
                     ),
                   ),
                 ),

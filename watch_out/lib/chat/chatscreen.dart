@@ -12,6 +12,8 @@ import 'package:image_picker/image_picker.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'package:watch_out/Screens/MapPage.dart';
 import 'package:watch_out/chat/ViewImage.dart';
 
 var imageurl;
@@ -122,9 +124,30 @@ class _ChatScreenState extends State<ChatScreen> {
             title: Text('Message'),
             actions: [
               IconButton(
+                icon: Icon(Icons.location_pin, color: Colors.white),
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => MapPage(useremail: useremail)));
+                },
+              ),
+              IconButton(
                 icon: Icon(Icons.delete_forever, color: Colors.white),
                 onPressed: () {
                   DialogBoxForeverDelete(context, roomId);
+                },
+              ),
+              IconButton(
+                icon: Icon(Icons.call, color: Colors.white),
+                onPressed: () async {
+                  var collectionRef =
+                      FirebaseFirestore.instance.collection('users');
+                  var docu = await collectionRef.doc(useremail).get();
+                  // var users = await collectionRef.doc(emailCont.text).snapshots();
+                  bool check = docu.exists;
+                  var dc = docu.data();
+                  launch("tel://" + dc['phone']);
                 },
               )
             ],

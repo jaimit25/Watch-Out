@@ -91,7 +91,7 @@ class _AddfeedState extends State<Addfeed> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Color(0xff19196f),
+        backgroundColor: Color(0xFF076482),
         title: Text('Post'),
       ),
       body: StreamBuilder(

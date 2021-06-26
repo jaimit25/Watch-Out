@@ -307,19 +307,7 @@ class _chatlistState extends State<chatlist> {
         child: Column(
           children: [
             Row(
-              // mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                // Container(
-                //   height: 60,
-                //   width: 60,
-                //   decoration: BoxDecoration(
-                //       // border: Border.all(color: color.theme1, width: 2),
-                //       shape: BoxShape.circle,
-                //       image: DecorationImage(
-                //         fit: BoxFit.cover,
-                //         image: NetworkImage(Photo),
-                //       )),
-                // ),
                 Container(
                   height: 60,
                   width: 60,

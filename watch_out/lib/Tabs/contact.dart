@@ -43,20 +43,24 @@ class _contactState extends State<contact> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.of(context)
-              .push(MaterialPageRoute(builder: (context) => Search()));
-        },
-        child: const Icon(
-          Icons.add_call,
-          size: 30,
-        ),
-        backgroundColor: Color(0xff076482),
-      ),
       appBar: AppBar(
         backgroundColor: Color(0xff076482),
         title: Text('Emergency Contact'),
+        actions: [
+          GestureDetector(
+            onTap: () {
+              Navigator.of(context)
+                  .push(MaterialPageRoute(builder: (context) => Search()));
+            },
+            child: Container(
+              margin: EdgeInsets.only(right: 20),
+              child: Icon(
+                Icons.add_call,
+                size: 30,
+              ),
+            ),
+          ),
+        ],
       ),
       body: StreamBuilder(
         stream: FirebaseFirestore.instance

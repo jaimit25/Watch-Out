@@ -69,7 +69,7 @@ class NavigationState extends State<Navigation> {
           body: buildPageView(),
           bottomNavigationBar: CurvedNavigationBar(
             color: Color(0xFF076482),
-            backgroundColor: Colors.black,
+            backgroundColor: Colors.transparent,
             buttonBackgroundColor: Color(0xFF076482),
             index: bottomSelectedIndex,
             items: [
