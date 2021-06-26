@@ -2,6 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:watch_out/Authentication/Register.dart';
+import 'package:watch_out/Navigation/navigation.dart';
 
 class login extends StatefulWidget {
   // const login({ Key? key }) : super(key: key);
@@ -113,7 +115,8 @@ class _loginState extends State<login> {
               if (emailCont.text != null && passCont.text != null) {
                 var collectionRef =
                     FirebaseFirestore.instance.collection('users');
-                var docu = await collectionRef.doc(emailCont.text).get();
+                var docu =
+                    await collectionRef.doc(emailCont.text.toLowerCase()).get();
                 // var users = await collectionRef.doc(emailCont.text).snapshots();
                 bool check = docu.exists;
                 var dc = docu.data();
@@ -121,7 +124,7 @@ class _loginState extends State<login> {
                   if (dc['pass'] == passCont.text) {
                     SharedPreferences prefs =
                         await SharedPreferences.getInstance();
-                    prefs.setString('email', emailCont.text);
+                    prefs.setString('email', emailCont.text.toLowerCase());
                     prefs.setString('pass', passCont.text);
                     prefs.setBool('theme', true);
                     Navigator.pop(context);

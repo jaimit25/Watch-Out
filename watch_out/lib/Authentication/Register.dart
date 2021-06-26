@@ -10,6 +10,9 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:async';
 import 'dart:ui';
 
+import 'package:watch_out/Authentication/login.dart';
+import 'package:watch_out/Navigation/navigation.dart';
+
 class register extends StatefulWidget {
   // const register({ Key? key }) : super(key: key);
 
@@ -23,6 +26,7 @@ class _registerState extends State<register> {
   TextEditingController emailCont = new TextEditingController();
   TextEditingController passCont = new TextEditingController();
   TextEditingController nameCont = new TextEditingController();
+  TextEditingController phoneCont = new TextEditingController();
   TextEditingController usernameCont = new TextEditingController();
 
   bool isObsecure = true;
@@ -32,6 +36,7 @@ class _registerState extends State<register> {
   var myLocation;
   double lat = 0, lng = 0;
   var Add = 'Address';
+  var locality = "India";
 
   @override
   void initState() {
@@ -74,6 +79,8 @@ class _registerState extends State<register> {
     print(
         ' ${first.locality}, ${first.adminArea},${first.subLocality}, ${first.subAdminArea},${first.addressLine}, ${first.featureName},${first.thoroughfare}, ${first.subThoroughfare}');
     setState(() {
+      locality = first.locality;
+      print(locality);
       Add =
           ' ${first.locality}, ${first.adminArea},${first.subLocality}, ${first.subAdminArea},${first.addressLine}, ${first.featureName},${first.thoroughfare}, ${first.subThoroughfare}';
     });
@@ -142,10 +149,15 @@ class _registerState extends State<register> {
             padding: EdgeInsets.only(left: 35, right: 35),
             child: TextFormField(
               maxLines: 2,
-              controller: usernameCont,
+              // onSaved: (input) {
+              //   setState(() {
+              //     _email.text = input;
+              //   });
+              // },
+              controller: emailCont,
               style: TextStyle(color: Colors.white),
               decoration: InputDecoration(
-                labelText: "USERNAME",
+                labelText: "EMAIL",
                 labelStyle: TextStyle(
                     color: Colors.grey, letterSpacing: 0.8, fontSize: 15),
                 enabledBorder: UnderlineInputBorder(
@@ -168,10 +180,10 @@ class _registerState extends State<register> {
               //     _email.text = input;
               //   });
               // },
-              controller: emailCont,
+              controller: phoneCont,
               style: TextStyle(color: Colors.white),
               decoration: InputDecoration(
-                labelText: "EMAIL",
+                labelText: "PHONE",
                 labelStyle: TextStyle(
                     color: Colors.grey, letterSpacing: 0.8, fontSize: 15),
                 enabledBorder: UnderlineInputBorder(
@@ -266,20 +278,22 @@ class _registerState extends State<register> {
                         .collection('users')
                         .doc(emailCont.text)
                         .set({
-                      'email': emailCont.text,
+                      'email': emailCont.text.toLowerCase(),
                       'name': nameCont.text,
                       'pass': passCont.text,
                       'photo':
                           'https://www.cybersport.ru/assets/img/no-photo/user.png',
-                      'username': usernameCont.text,
-                      'call': false,
-                      'phone': 'Enter Phone Number',
-                      'birthdate': 'Enter Birth Date',
+
+                      'phone': phoneCont.text == null
+                          ? 'Enter Phone Number'
+                          : phoneCont.text,
+                      // 'birthdate': 'Enter Birth Date',
                       'extra': 0,
                       'Privacy': 0,
                       'extra1': 'abc',
                       'val': 'value',
-                      'checkval': 'value',
+                      'locality': locality,
+
                       'searchname': nameCont.text.toLowerCase(),
                       'lat': lat == null ? 34.0479 : lat,
                       'lng': lng == null ? 100.6197 : lng,
@@ -289,7 +303,7 @@ class _registerState extends State<register> {
                     }).then((value) async {
                       SharedPreferences prefs =
                           await SharedPreferences.getInstance();
-                      prefs.setString('email', emailCont.text);
+                      prefs.setString('email', emailCont.text.toLowerCase());
                       prefs.setString('pass', passCont.text);
                       // prefs.setString('name', nameCont.text);
                       // prefs.setString('username', usernameCont.text);
