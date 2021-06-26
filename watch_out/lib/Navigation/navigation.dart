@@ -7,6 +7,7 @@ import 'package:watch_out/Contact/add_contact.dart';
 import 'package:watch_out/Tabs/chat.dart';
 import 'package:watch_out/Tabs/contact.dart';
 import 'package:watch_out/Tabs/home.dart';
+import 'package:watch_out/Tabs/media.dart';
 
 var color = Colors.white;
 
@@ -33,7 +34,7 @@ class NavigationState extends State<Navigation> {
         });
         pageChanged(index);
       },
-      children: <Widget>[home(), home(), home(), chatlist(), contact()],
+      children: <Widget>[media(), home(), home(), chatlist(), contact()],
     );
   }
 
@@ -68,7 +69,7 @@ class NavigationState extends State<Navigation> {
           body: buildPageView(),
           bottomNavigationBar: CurvedNavigationBar(
             color: Color(0xFF076482),
-            backgroundColor: Colors.grey[50],
+            backgroundColor: Colors.black,
             buttonBackgroundColor: Color(0xFF076482),
             index: bottomSelectedIndex,
             items: [

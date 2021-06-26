@@ -456,16 +456,52 @@ class _ChatScreenState extends State<ChatScreen> {
                         await SharedPreferences.getInstance();
                     String mail = prefs.getString('email');
                     String createRoom = getRoomId(mail, useremail);
-                    FirebaseFirestore.instance
+                    var collectionRef =
+                        FirebaseFirestore.instance.collection('users');
+                    var docu = await collectionRef.doc(useremail).get();
+                    var mydocu = await collectionRef.doc(myemail).get();
+                    // var users = await collectionRef.doc(emailCont.text).snapshots();
+                    bool check = docu.exists;
+                    var dc = docu.data();
+                    var mydc = mydocu.data();
+                    print(dc['name']);
+                    print(mydc['name']);
+                    await FirebaseFirestore.instance
                         .collection('ChatRoom')
                         .doc(useremail)
                         .collection('ChatList')
-                        .doc(roomId)
-                        .update({
-                      'lastMessage': value,
+                        .doc(createRoom)
+                        .set({
+                      // 'Name': mydc['name'],
+                      'Name': mydc['name'],
+                      'Photo': mydc['photo'],
+                      'Email': useremail,
+                      'useremail': myemail,
+                      'roomId': createRoom,
+                      'lastMessage': chatController.text,
                       'check': false,
                       'time': Timestamp.now().toString(),
                     });
+                    // FirebaseFirestore.instance
+                    //     .collection('ChatRoom')
+                    //     .doc(useremail)
+                    //     .collection('ChatList')
+                    //     .doc(roomId)
+                    //     .set({
+                    //   'lastMessage': value,
+                    //   'check': false,
+                    //   'time': Timestamp.now().toString(),
+                    // });
+                    // FirebaseFirestore.instance
+                    //     .collection('ChatRoom')
+                    //     .doc(useremail)
+                    //     .collection('ChatList')
+                    //     .doc(roomId)
+                    //     .update({
+                    //   'lastMessage': value,
+                    //   'check': false,
+                    //   'time': Timestamp.now().toString(),
+                    // });
                     FirebaseFirestore.instance
                         .collection('ChatRoom')
                         .doc(myemail)
@@ -499,6 +535,7 @@ class _ChatScreenState extends State<ChatScreen> {
                       'time': Timestamp.now().toString(),
                     });
                   });
+
                   chatController.clear();
                 }
               },
@@ -543,21 +580,57 @@ class _ChatScreenState extends State<ChatScreen> {
                   'Photo': '',
                   'File': '',
                   'StringExtra': '',
-                }).then((value) async {
+                }).then((type) async {
                   SharedPreferences prefs =
                       await SharedPreferences.getInstance();
                   String mail = prefs.getString('email');
                   String createRoom = getRoomId(mail, useremail);
-                  FirebaseFirestore.instance
+                  var collectionRef =
+                      FirebaseFirestore.instance.collection('users');
+                  var docu = await collectionRef.doc(useremail).get();
+                  var mydocu = await collectionRef.doc(myemail).get();
+                  // var users = await collectionRef.doc(emailCont.text).snapshots();
+                  bool check = docu.exists;
+                  var dc = docu.data();
+                  var mydc = mydocu.data();
+                  print(dc['name']);
+                  print(mydc['name']);
+                  await FirebaseFirestore.instance
                       .collection('ChatRoom')
                       .doc(useremail)
                       .collection('ChatList')
-                      .doc(roomId)
-                      .update({
-                    'lastMessage': message,
+                      .doc(createRoom)
+                      .set({
+                    // 'Name': mydc['name'],
+                    'Name': mydc['name'],
+                    'Photo': Photo,
+                    'Email': useremail,
+                    'useremail': myemail,
+                    'roomId': createRoom,
+                    'lastMessage': chatController.text,
                     'check': false,
                     'time': Timestamp.now().toString(),
                   });
+                  // FirebaseFirestore.instance
+                  //     .collection('ChatRoom')
+                  //     .doc(useremail)
+                  //     .collection('ChatList')
+                  //     .doc(roomId)
+                  //     .set({
+                  //   'lastMessage': value,
+                  //   'check': false,
+                  //   'time': Timestamp.now().toString(),
+                  // });
+                  // FirebaseFirestore.instance
+                  //     .collection('ChatRoom')
+                  //     .doc(useremail)
+                  //     .collection('ChatList')
+                  //     .doc(roomId)
+                  //     .update({
+                  //   'lastMessage': value,
+                  //   'check': false,
+                  //   'time': Timestamp.now().toString(),
+                  // });
                   FirebaseFirestore.instance
                       .collection('ChatRoom')
                       .doc(myemail)
@@ -576,8 +649,23 @@ class _ChatScreenState extends State<ChatScreen> {
                     print('hi there');
                   });
                 }).then((value) async {
-                  chatController.clear();
+                  SharedPreferences prefs =
+                      await SharedPreferences.getInstance();
+                  String mail = prefs.getString('email');
+                  String createRoom = getRoomId(mail, useremail);
+                  FirebaseFirestore.instance
+                      .collection('ChatRoom')
+                      .doc(useremail)
+                      .collection('ChatList')
+                      .doc(createRoom)
+                      .update({
+                    'lastMessage': message,
+                    'check': false,
+                    'time': Timestamp.now().toString(),
+                  });
                 });
+
+                chatController.clear();
               }
             },
             child: Opacity(

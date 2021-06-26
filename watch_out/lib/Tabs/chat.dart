@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:watch_out/chat/add_chat.dart';
 import 'package:watch_out/chat/chatscreen.dart';
 
 class chatlist extends StatefulWidget {
@@ -33,6 +34,21 @@ class _chatlistState extends State<chatlist> {
       appBar: AppBar(
         backgroundColor: Color(0xff076482),
         title: Text('Chat'),
+        actions: [
+          GestureDetector(
+            onTap: () {
+              Navigator.of(context)
+                  .push(MaterialPageRoute(builder: (context) => add_chat()));
+            },
+            child: Container(
+              margin: EdgeInsets.only(right: 20),
+              child: Icon(
+                Icons.search,
+                color: Colors.white,
+              ),
+            ),
+          )
+        ],
       ),
       // body: StreamBuilder(
       //   stream: FirebaseFirestore.instance

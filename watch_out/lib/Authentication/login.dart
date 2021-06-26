@@ -115,7 +115,8 @@ class _loginState extends State<login> {
               if (emailCont.text != null && passCont.text != null) {
                 var collectionRef =
                     FirebaseFirestore.instance.collection('users');
-                var docu = await collectionRef.doc(emailCont.text).get();
+                var docu =
+                    await collectionRef.doc(emailCont.text.toLowerCase()).get();
                 // var users = await collectionRef.doc(emailCont.text).snapshots();
                 bool check = docu.exists;
                 var dc = docu.data();
@@ -123,7 +124,7 @@ class _loginState extends State<login> {
                   if (dc['pass'] == passCont.text) {
                     SharedPreferences prefs =
                         await SharedPreferences.getInstance();
-                    prefs.setString('email', emailCont.text);
+                    prefs.setString('email', emailCont.text.toLowerCase());
                     prefs.setString('pass', passCont.text);
                     prefs.setBool('theme', true);
                     Navigator.pop(context);
