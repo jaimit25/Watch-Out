@@ -2,6 +2,8 @@ import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:watch_out/Authentication/login.dart';
+import 'package:watch_out/Navigation/navigation.dart';
 
 class SplashScreen extends StatefulWidget {
   @override
@@ -52,7 +54,7 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black,
+      backgroundColor: Color(0xffFFD5D5),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -66,7 +68,7 @@ class _SplashScreenState extends State<SplashScreen> {
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.all(Radius.circular(20)),
                   image: DecorationImage(
-                    image: AssetImage('assets/images/auragif.gif'),
+                    image: AssetImage('assets/images/watchout.gif'),
                   ),
                 ), // child: Text(provider.uid),
               ),

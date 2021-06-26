@@ -2,6 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:watch_out/Authentication/Register.dart';
+import 'package:watch_out/Navigation/navigation.dart';
 
 class login extends StatefulWidget {
   // const login({ Key? key }) : super(key: key);

@@ -10,6 +10,9 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:async';
 import 'dart:ui';
 
+import 'package:watch_out/Authentication/login.dart';
+import 'package:watch_out/Navigation/navigation.dart';
+
 class register extends StatefulWidget {
   // const register({ Key? key }) : super(key: key);
 
@@ -32,6 +35,7 @@ class _registerState extends State<register> {
   var myLocation;
   double lat = 0, lng = 0;
   var Add = 'Address';
+  var locality = "India";
 
   @override
   void initState() {
@@ -74,6 +78,8 @@ class _registerState extends State<register> {
     print(
         ' ${first.locality}, ${first.adminArea},${first.subLocality}, ${first.subAdminArea},${first.addressLine}, ${first.featureName},${first.thoroughfare}, ${first.subThoroughfare}');
     setState(() {
+      locality = first.locality;
+      print(locality);
       Add =
           ' ${first.locality}, ${first.adminArea},${first.subLocality}, ${first.subAdminArea},${first.addressLine}, ${first.featureName},${first.thoroughfare}, ${first.subThoroughfare}';
     });
@@ -125,27 +131,6 @@ class _registerState extends State<register> {
               style: TextStyle(color: Colors.white),
               decoration: InputDecoration(
                 labelText: "NAME",
-                labelStyle: TextStyle(
-                    color: Colors.grey, letterSpacing: 0.8, fontSize: 15),
-                enabledBorder: UnderlineInputBorder(
-                    borderSide: BorderSide(color: Colors.white)),
-                focusedBorder: UnderlineInputBorder(
-                  borderSide: BorderSide(color: Colors.white),
-                ),
-              ),
-            ),
-          ),
-          SizedBox(
-            height: 5,
-          ),
-          Container(
-            padding: EdgeInsets.only(left: 35, right: 35),
-            child: TextFormField(
-              maxLines: 2,
-              controller: usernameCont,
-              style: TextStyle(color: Colors.white),
-              decoration: InputDecoration(
-                labelText: "USERNAME",
                 labelStyle: TextStyle(
                     color: Colors.grey, letterSpacing: 0.8, fontSize: 15),
                 enabledBorder: UnderlineInputBorder(
@@ -271,15 +256,15 @@ class _registerState extends State<register> {
                       'pass': passCont.text,
                       'photo':
                           'https://www.cybersport.ru/assets/img/no-photo/user.png',
-                      'username': usernameCont.text,
-                      'call': false,
+
                       'phone': 'Enter Phone Number',
-                      'birthdate': 'Enter Birth Date',
+                      // 'birthdate': 'Enter Birth Date',
                       'extra': 0,
                       'Privacy': 0,
                       'extra1': 'abc',
                       'val': 'value',
-                      'checkval': 'value',
+                      'locality': locality,
+
                       'searchname': nameCont.text.toLowerCase(),
                       'lat': lat == null ? 34.0479 : lat,
                       'lng': lng == null ? 100.6197 : lng,
