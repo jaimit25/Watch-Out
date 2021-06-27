@@ -330,7 +330,7 @@ class _registerState extends State<register> {
                           }).then((value) async {
                             SharedPreferences prefs =
                                 await SharedPreferences.getInstance();
-                            prefs.setString('email', nameCont.text);
+                            prefs.setString('email', emailCont.text);
                             prefs.setString('pass', passCont.text);
                             prefs.setString('role', _role);
                             // prefs.setString('name', nameCont.text);
