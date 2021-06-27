@@ -60,6 +60,7 @@ class _PreviousAnswerState extends State<PreviousAnswer> {
                   document['email'],
                   document['post'],
                   document['phone'],
+                  document.id,
                 );
               }).toList(),
             );
@@ -69,11 +70,18 @@ class _PreviousAnswerState extends State<PreviousAnswer> {
     );
   }
 
-  Tile(name, email, post, phone) {
+  Tile(name, email, post, phone, id) {
     return GestureDetector(
-      onTap: () {
+      onLongPress: () {
         // Navigator.push(
         //     context, MaterialPageRoute(builder: (context) => MapPage()));
+        FirebaseFirestore.instance
+            .collection('PreviousAnswer')
+            .doc(mymail)
+            .collection('prev')
+            .doc(id)
+            .delete();
+        // .orderBy('time', descending: true)
       },
       child: Container(
         // height: 300,
