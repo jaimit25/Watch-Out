@@ -1,5 +1,9 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'package:watchout/Screens/ChatUser.dart';
 
 class DoctorAsk extends StatefulWidget {
   @override
@@ -13,12 +17,37 @@ class _DoctorAskState extends State<DoctorAsk> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: ListView(
-      children: [Tile()],
-    ));
+      body: StreamBuilder(
+        stream: FirebaseFirestore.instance
+            .collection('Doctors')
+            .orderBy('time', descending: true)
+            .snapshots(),
+        builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+          if (!snapshot.hasData) {
+            return Center(
+              child: CircularProgressIndicator(),
+            );
+          } else {
+            return ListView(
+              // reverse: true,
+              children: snapshot.data.docs.map<Widget>((document) {
+                // return Text(document['UserName']);
+                return Tile(
+                  document['name'],
+                  document['problem'],
+                  document['photo'],
+                  document['email'],
+                  document['phone'],
+                );
+              }).toList(),
+            );
+          }
+        },
+      ),
+    );
   }
 
-  Tile() {
+  Tile(name, problem, photo, email, phone) {
     return GestureDetector(
       onTap: () {
         // Navigator.push(
@@ -47,7 +76,7 @@ class _DoctorAskState extends State<DoctorAsk> {
             Container(
               margin: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
               child: Text(
-                'Name',
+                name,
                 maxLines: 2,
                 overflow: TextOverflow.ellipsis,
                 style: TextStyle(
@@ -70,7 +99,7 @@ class _DoctorAskState extends State<DoctorAsk> {
               width: 300,
               margin: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
               child: Text(
-                'Problem',
+                problem,
                 maxLines: 20,
                 overflow: TextOverflow.ellipsis,
                 style: styl,
@@ -83,24 +112,35 @@ class _DoctorAskState extends State<DoctorAsk> {
                 decoration: BoxDecoration(
                     shape: BoxShape.rectangle,
                     image: DecorationImage(
-                        image: NetworkImage(
-                            'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSuRlNbLSFgD26Z_R6KqYa80uSBD4rJA3feIg&usqp=CAU'),
-                        fit: BoxFit.cover))),
+                        image: NetworkImage(photo), fit: BoxFit.cover))),
             Container(
               height: 60,
               child: Row(
                 children: [
                   GestureDetector(
-                    onTap: () {
-                      print('Send message');
-                      Fluttertoast.showToast(
-                          msg: "Message Sent",
-                          toastLength: Toast.LENGTH_SHORT,
-                          gravity: ToastGravity.SNACKBAR,
-                          timeInSecForIosWeb: 2,
-                          backgroundColor: Colors.black,
-                          textColor: Colors.white,
-                          fontSize: 16.0);
+                    onTap: () async {
+                      SharedPreferences prefs =
+                          await SharedPreferences.getInstance();
+                      var email = prefs.getString('email');
+                      FirebaseFirestore.instance
+                          .collection('PreviousAnswer')
+                          .doc(email)
+                          .collection('prev')
+                          .doc(email + problem)
+                          .set({
+                        'name': name,
+                        'email': email,
+                        'post': email + problem,
+                        'phone': phone
+                      }).then((value) {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    CommentSec(post: email + problem)));
+                      }).catchError((e) {
+                        print('Error');
+                      });
                     },
                     child: Container(
                       margin:
@@ -112,31 +152,7 @@ class _DoctorAskState extends State<DoctorAsk> {
                           borderRadius: BorderRadius.circular(10)),
                       child: Center(
                         child: Text(
-                          'Notify When Safe',
-                          style: stylwhite,
-                        ),
-                      ),
-                    ),
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                      print('Track User');
-                      // Navigator.push(
-                      //     context,
-                      //     MaterialPageRoute(
-                      //         builder: (context) => MapPageTrack()));
-                    },
-                    child: Container(
-                      margin:
-                          EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-                      height: 40,
-                      width: 100,
-                      decoration: BoxDecoration(
-                          color: Color(0xff076482),
-                          borderRadius: BorderRadius.circular(10)),
-                      child: Center(
-                        child: Text(
-                          'Track User',
+                          'Chat With User',
                           style: stylwhite,
                         ),
                       ),
@@ -144,12 +160,6 @@ class _DoctorAskState extends State<DoctorAsk> {
                   ),
                 ],
               ),
-            ),
-            Column(
-              children: [
-                SingleTile('Latitude  : ', '20.5937'),
-                SingleTile('Longitude : ', '78.9629')
-              ],
             ),
             Container(
               child: Row(
@@ -168,6 +178,7 @@ class _DoctorAskState extends State<DoctorAsk> {
                       color: Color(0xff076482),
                       onPressed: () {
                         print('Call User');
+                        launch("tel://" + phone);
                       },
                       icon: Icon(
                         Icons.call,

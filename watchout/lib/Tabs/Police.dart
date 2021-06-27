@@ -16,77 +16,78 @@ class _PoliceState extends State<Police> {
     // return Scaffold(
     //   backgroundColor: Colors.blue,
     // );
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: DefaultTabController(
-        length: 2,
-        child: Scaffold(
-          resizeToAvoidBottomInset: false,
-          appBar: AppBar(
-            backgroundColor: Color(0xff076482),
-            actions: [
-              PopupMenuButton(
-                itemBuilder: (BuildContext bc) => [
-                  PopupMenuItem(
-                      child: GestureDetector(
-                          onTap: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => SplashScreen()));
-                          },
-                          child: Text("Refresh")),
-                      value: "Refresh"),
-                  PopupMenuItem(
-                      child: GestureDetector(
-                          onTap: () {
-                            //
-                            DialogBoxLogOut(context);
-                          },
-                          child: Text("Log Out")),
-                      value: "Log out"),
-                ],
-                onSelected: (route) {
-                  print(route);
-                  // Note You must create respective pages for navigation
-                  Navigator.pushNamed(context, route);
-                },
-              ),
-            ],
-            bottom: TabBar(
-              indicatorColor: Colors.white,
-              indicatorWeight: 4.0,
-              physics: BouncingScrollPhysics(),
-              tabs: [
-                Tab(
-                    child: Text(
-                  'Latest',
-                  style: txts,
-                )),
-                Tab(
-                    child: Text(
-                  'ChatList',
-                  style: txts,
-                )),
-              ],
-            ),
-            title: Text(
-              'Watch Out',
-              style: txts,
-            ),
-          ),
-          body: TabBarView(
-            children: [
-              Center(
-                child: Alert(),
-              ),
-              Center(
-                child: ChatNearBy(),
-              )
-            ],
-          ),
-        ),
-      ),
+    // return MaterialApp(debugShowCheckedModeBanner: false, home: Alert()
+    return Scaffold(
+      body: Alert(),
+      // home: DefaultTabController(
+      //   length: 2,
+      //   child: Scaffold(
+      //     resizeToAvoidBottomInset: false,
+      //     appBar: AppBar(
+      //       backgroundColor: Color(0xff076482),
+      //       actions: [
+      //         PopupMenuButton(
+      //           itemBuilder: (BuildContext bc) => [
+      //             PopupMenuItem(
+      //                 child: GestureDetector(
+      //                     onTap: () {
+      //                       Navigator.push(
+      //                           context,
+      //                           MaterialPageRoute(
+      //                               builder: (context) => SplashScreen()));
+      //                     },
+      //                     child: Text("Refresh")),
+      //                 value: "Refresh"),
+      //             PopupMenuItem(
+      //                 child: GestureDetector(
+      //                     onTap: () {
+      //                       //
+      //                       DialogBoxLogOut(context);
+      //                     },
+      //                     child: Text("Log Out")),
+      //                 value: "Log out"),
+      //           ],
+      //           onSelected: (route) {
+      //             print(route);
+      //             // Note You must create respective pages for navigation
+      //             Navigator.pushNamed(context, route);
+      //           },
+      //         ),
+      //       ],
+      //       bottom: TabBar(
+      //         indicatorColor: Colors.white,
+      //         indicatorWeight: 4.0,
+      //         physics: BouncingScrollPhysics(),
+      //         tabs: [
+      //           Tab(
+      //               child: Text(
+      //             'Latest',
+      //             style: txts,
+      //           )),
+      //           Tab(
+      //               child: Text(
+      //             'ChatList',
+      //             style: txts,
+      //           )),
+      //         ],
+      //       ),
+      //       title: Text(
+      //         'Watch Out',
+      //         style: txts,
+      //       ),
+      //     ),
+      //     body: TabBarView(
+      //       children: [
+      //         Center(
+      //           child: Alert(),
+      //         ),
+      //         Center(
+      //           child: ChatNearBy(),
+      //         )
+      //       ],
+      //     ),
+      //   ),
+      // ),
     );
   }
 

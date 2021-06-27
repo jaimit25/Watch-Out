@@ -45,11 +45,12 @@ class _DoctorState extends State<Doctor> {
                           child: Text("Log Out")),
                       value: "Log out"),
                 ],
-                onSelected: (route) {
-                  print(route);
-                  // Note You must create respective pages for navigation
-                  Navigator.pushNamed(context, route);
-                },
+                // onSelected: (route) {
+                //   print(route);
+                //   // Note You must create respective pages for navigation
+                //   Navigator.push(context,
+                //       MaterialPageRoute(builder: (context) => SplashScreen()));
+                // },
               ),
             ],
             bottom: TabBar(

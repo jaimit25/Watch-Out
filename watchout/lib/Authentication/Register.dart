@@ -307,7 +307,7 @@ class _registerState extends State<register> {
                               .doc(emailCont.text)
                               .set({
                             'email': emailCont.text,
-                            'name': nameCont.text,
+                            'name': nameCont.text.toLowerCase().trim(),
                             'pass': passCont.text,
                             'photo':
                                 'https://www.cybersport.ru/assets/img/no-photo/user.png',
@@ -330,7 +330,8 @@ class _registerState extends State<register> {
                           }).then((value) async {
                             SharedPreferences prefs =
                                 await SharedPreferences.getInstance();
-                            prefs.setString('email', emailCont.text);
+                            prefs.setString(
+                                'email', nameCont.text.toLowerCase().trim());
                             prefs.setString('pass', passCont.text);
                             prefs.setString('role', _role);
                             // prefs.setString('name', nameCont.text);
