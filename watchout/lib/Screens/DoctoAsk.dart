@@ -47,7 +47,7 @@ class _DoctorAskState extends State<DoctorAsk> {
     );
   }
 
-  Tile(name, problem, photo, email, phone) {
+  Tile(name, problem, photo, useremail, phone) {
     return GestureDetector(
       onTap: () {
         // Navigator.push(
@@ -105,14 +105,16 @@ class _DoctorAskState extends State<DoctorAsk> {
                 style: styl,
               ),
             ),
-            Container(
-                height: 300,
-                width: MediaQuery.of(context).size.width - 10,
-                margin: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-                decoration: BoxDecoration(
-                    shape: BoxShape.rectangle,
-                    image: DecorationImage(
-                        image: NetworkImage(photo), fit: BoxFit.cover))),
+            photo == null || photo == ''
+                ? Container()
+                : Container(
+                    height: 300,
+                    width: MediaQuery.of(context).size.width - 10,
+                    margin: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                    decoration: BoxDecoration(
+                        shape: BoxShape.rectangle,
+                        image: DecorationImage(
+                            image: NetworkImage(photo), fit: BoxFit.cover))),
             Container(
               height: 60,
               child: Row(
@@ -129,15 +131,15 @@ class _DoctorAskState extends State<DoctorAsk> {
                           .doc(email + problem)
                           .set({
                         'name': name,
-                        'email': email,
-                        'post': email + problem,
+                        'email': useremail,
+                        'post': useremail + problem,
                         'phone': phone
                       }).then((value) {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
                                 builder: (context) =>
-                                    CommentSec(post: email + problem)));
+                                    CommentSec(post: useremail + problem)));
                       }).catchError((e) {
                         print('Error');
                       });

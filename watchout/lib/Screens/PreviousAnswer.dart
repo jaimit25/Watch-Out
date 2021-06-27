@@ -70,14 +70,14 @@ class _PreviousAnswerState extends State<PreviousAnswer> {
     );
   }
 
-  Tile(name, email, post, phone, id) {
+  Tile(name, useremail, post, phone, id) {
     return GestureDetector(
       onLongPress: () {
         // Navigator.push(
         //     context, MaterialPageRoute(builder: (context) => MapPage()));
         FirebaseFirestore.instance
             .collection('PreviousAnswer')
-            .doc(mymail)
+            .doc(useremail)
             .collection('prev')
             .doc(id)
             .delete();

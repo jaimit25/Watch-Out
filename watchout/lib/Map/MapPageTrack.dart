@@ -5,6 +5,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:watchout/Tabs/Doctor.dart';
 
 const double CAMERA_ZOOM = 18;
 const double CAMERA_TILT = 0;
@@ -44,6 +45,7 @@ class MapPageState extends State<MapPage> {
   var typ = 1;
   bool follow = false;
   bool traffic = false;
+  var colr = Color(0xff076482);
   @override
   void initState() {
     super.initState();
@@ -77,127 +79,136 @@ class MapPageState extends State<MapPage> {
 
   @override
   Widget build(BuildContext context) {
+    onWillPop() {
+      Navigator.pop(context);
+    }
+
     CameraPosition initialLocation = CameraPosition(
         zoom: CAMERA_ZOOM,
         bearing: CAMERA_BEARING,
         tilt: CAMERA_TILT,
         target: SOURCE_LOCATION);
 
-    return SafeArea(
-      child: Stack(
-        children: [
-          Container(
-            child: StreamBuilder(
-              stream: FirebaseFirestore.instance
-                  .collection('users')
-                  .doc(useremail)
-                  .snapshots(),
-              builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
-                if (!snapshot.hasData) {
-                  return Center(
-                    child: CircularProgressIndicator(),
-                  );
-                } else {
-                  var doc = snapshot.data;
+    return WillPopScope(
+        child: Scaffold(
+          appBar: AppBar(
+              backgroundColor: Color(0xff076482), title: Text('Watch Out')),
+          body: Stack(
+            children: [
+              Container(
+                child: StreamBuilder(
+                  stream: FirebaseFirestore.instance
+                      .collection('users')
+                      .doc(useremail)
+                      .snapshots(),
+                  builder:
+                      (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
+                    if (!snapshot.hasData) {
+                      return Center(
+                        child: CircularProgressIndicator(),
+                      );
+                    } else {
+                      var doc = snapshot.data;
 
-                  // setState(() {
-                  doc = snapshot.data;
-                  USERLOCATION = LatLng(doc['lat'], doc['lng']);
-                  lat = doc['lat'];
-                  lng = doc['lng'];
-                  // });
-                  // setMapPins();
-                  CameraPosition initialLocation = CameraPosition(
-                    zoom: CAMERA_ZOOM,
-                    bearing: CAMERA_BEARING,
-                    tilt: CAMERA_TILT,
-                    target: LatLng(doc['lat'], doc['lng']),
-                  );
-                  return Container(
-                    height: MediaQuery.of(context).size.height,
-                    width: MediaQuery.of(context).size.width,
-                    child: GoogleMap(
-                        myLocationEnabled: true,
-                        rotateGesturesEnabled: true,
-                        trafficEnabled: traffic,
-                        buildingsEnabled: true,
-                        compassEnabled: true,
-                        tiltGesturesEnabled: true,
-                        markers: _markers,
-                        // polylines: _polylines,
-                        polylines: Set<Polyline>.of(polylines.values),
-                        // mapType: MapType.normal,
-                        mapType: maptyp(typ),
+                      // setState(() {
+                      doc = snapshot.data;
+                      USERLOCATION = LatLng(doc['lat'], doc['lng']);
+                      lat = doc['lat'];
+                      lng = doc['lng'];
+                      // });
+                      // setMapPins();
+                      CameraPosition initialLocation = CameraPosition(
+                        zoom: CAMERA_ZOOM,
+                        bearing: CAMERA_BEARING,
+                        tilt: CAMERA_TILT,
+                        target: LatLng(doc['lat'], doc['lng']),
+                      );
+                      return Container(
+                        height: MediaQuery.of(context).size.height,
+                        width: MediaQuery.of(context).size.width,
+                        child: GoogleMap(
+                            myLocationEnabled: true,
+                            rotateGesturesEnabled: true,
+                            trafficEnabled: traffic,
+                            buildingsEnabled: true,
+                            compassEnabled: true,
+                            tiltGesturesEnabled: true,
+                            markers: _markers,
+                            // polylines: _polylines,
+                            polylines: Set<Polyline>.of(polylines.values),
+                            // mapType: MapType.normal,
+                            mapType: maptyp(typ),
 
-                        // onCameraMove: (),
-                        initialCameraPosition: initialLocation,
-                        onMapCreated: onMapCreated),
-                  );
-                }
-              },
-            ),
-          ),
-          Container(
-            padding: EdgeInsets.all(20),
-            child: Align(
-              alignment: Alignment.topRight,
-              // right: 10,
-              child: Column(
-                children: [
-                  FloatingActionButton(
-                    onPressed: () {
-                      setState(() {
-                        if (typ == 3) {
-                          typ = 1;
-                        } else {
-                          typ++;
-                        }
-                      });
-                    },
-                    backgroundColor: Color(0xff19196f),
-                    child: Icon(
-                      Icons.map_outlined,
-                      color: Colors.white,
-                    ),
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  FloatingActionButton(
-                    onPressed: () {
-                      setState(() {
-                        follow = !follow;
-                      });
-                      followcamera();
-                    },
-                    backgroundColor: Color(0xff19196f),
-                    child: Icon(
-                      follow ? Icons.no_transfer : Icons.directions_bus,
-                      color: follow ? Colors.white : Colors.white,
-                    ),
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  FloatingActionButton(
-                    onPressed: () {
-                      setState(() {
-                        traffic = !traffic;
-                      });
-                    },
-                    backgroundColor: Color(0xff19196f),
-                    child: Icon(
-                      traffic ? Icons.edit_road : Icons.traffic,
-                      color: traffic ? Colors.white : Colors.white,
-                    ),
-                  ),
-                ],
+                            // onCameraMove: (),
+                            initialCameraPosition: initialLocation,
+                            onMapCreated: onMapCreated),
+                      );
+                    }
+                  },
+                ),
               ),
-            ),
+              Container(
+                padding: EdgeInsets.all(20),
+                child: Align(
+                  alignment: Alignment.topRight,
+                  // right: 10,
+                  child: Column(
+                    children: [
+                      FloatingActionButton(
+                        onPressed: () {
+                          setState(() {
+                            if (typ == 3) {
+                              typ = 1;
+                            } else {
+                              typ++;
+                            }
+                          });
+                        },
+                        backgroundColor: colr,
+                        child: Icon(
+                          Icons.map_outlined,
+                          color: Colors.white,
+                        ),
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      FloatingActionButton(
+                        onPressed: () {
+                          setState(() {
+                            follow = !follow;
+                          });
+                          followcamera();
+                        },
+                        backgroundColor: colr,
+                        child: Icon(
+                          follow ? Icons.no_transfer : Icons.directions_bus,
+                          color: follow ? Colors.white : Colors.white,
+                        ),
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      FloatingActionButton(
+                        onPressed: () {
+                          setState(() {
+                            traffic = !traffic;
+                          });
+                        },
+                        backgroundColor: colr,
+                        child: Icon(
+                          traffic ? Icons.edit_road : Icons.traffic,
+                          color: traffic ? Colors.white : Colors.white,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ],
           ),
-        ],
-      ),
-    );
+        ),
+        onWillPop: onWillPop);
   }
 
   MapType maptyp(int a) {
