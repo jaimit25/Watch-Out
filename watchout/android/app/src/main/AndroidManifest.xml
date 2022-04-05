@@ -10,7 +10,7 @@
         android:label="watchout"
         android:icon="@mipmap/ic_launcher">
         <meta-data android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyAt07QXD3BGWgWZCh15Rm122EvnH_aUg9I"/>
+            android:value=""/>
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"
